@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Name</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        .otherBooks {
+            height: 300px;
+            width: 300px;
+            overflow: auto;
+            border: solid black 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navbar navbar-expand bg-dark">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="navbar-brand" href="/books">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/books/add">Add Book and Review</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+        <h1>{{book.title}}</h1>
+        <h2>Author: {{book.author}}</h2>
+        <div class="row">
+            <div class="col">
+                <h3>Reviews:</h3>
+                {% for review in reviews %}
+                    <div class='border-top-dark'>
+                        <p>Rating: {{review.rating}} stars</p>
+                        <p><a href="/users/{{review.user.id}}">{{review.user.name}}</a> says: {{review.review}}</p>
+                        <p>Posted on {{review.created_at}}
+                            {% if request.session.userID == review.user.id %}
+                                <a href="/delete/{{review.id}}">Delete</a>
+                            {% endif %}
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+            <div>
+                <h3>Add a Review:</h3>
+                <form action="/submitReview/{{book.id}}" method="POST">
+                    {% csrf_token %}
+                    <textarea name="review" rows="10" cols="50" placeholder="Enter your review here"></textarea>
+                    <p>Rating 
+                        <select name="rating" id="">
+                            <option value="none" selected disabled hidden> 
+                                Select a Rating
+                            </option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        stars
+                    </p>
+                    <p><button type="Submit">Submit Review</button></p>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

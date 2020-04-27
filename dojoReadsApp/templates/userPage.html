@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{user}}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"></head>
+<body>
+    <div class="container">
+        <div class="navbar navbar-expand bg-dark">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="navbar-brand" href="/books">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/books/add">Add Book and Review</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+        <div class="jumbotron row">
+            <div class="form-group col">
+                <h1>User Profile:</h1>
+                <p>Alias: {{user.alias}}</p>
+                <p>Name: {{user.name}}</p>
+                <p>Email: {{user.email}}</p>
+                <p>Total reviews: {{user.reviews.count}}</p>
+                <h4>Posted reviews on the following books:</h4>
+                    {% for review in reviews %}
+                        <p><a href="/books/{{review.book.id}}">{{review.book.title}}</a></p>
+                    {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
